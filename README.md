@@ -437,7 +437,7 @@ all the keys in a bucket:
 db.View(func(tx *bolt.Tx) error {
 	// Assume bucket exists and has keys
 	b := tx.Bucket([]byte("MyBucket"))
-	
+
 	b.ForEach(func(k, v []byte) error {
 		fmt.Printf("key=%s, value=%s\n", k, v)
 		return nil
@@ -617,7 +617,7 @@ Boltmobiledemo.BoltDB boltDB = Boltmobiledemo.NewBoltDB(path)
 {
     NSURL* URL= [NSURL fileURLWithPath: filePathString];
     assert([[NSFileManager defaultManager] fileExistsAtPath: [URL path]]);
-    
+
     NSError *error = nil;
     BOOL success = [URL setResourceValue: [NSNumber numberWithBool: YES]
                                   forKey: NSURLIsExcludedFromBackupKey error: &error];
@@ -737,7 +737,9 @@ Here are a few things to note when evaluating and using Bolt:
 * The data structures in the Bolt database are memory mapped so the data file
   will be endian specific. This means that you cannot copy a Bolt file from a
   little endian machine to a big endian machine and have it work. For most
-  users this is not a concern since most modern CPUs are little endian.
+  users this is not a concern since most modern CPUs are little endian. This
+  does not affect your code and you should always use big endian when converting
+  your keys and data to/from byte slice.
 
 * Because of the way pages are laid out on disk, Bolt cannot truncate data files
   and return free pages back to the disk. Instead, Bolt maintains a free list
